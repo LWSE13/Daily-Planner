@@ -1,3 +1,13 @@
+$(document).ready(function() {
+  function timeUpdate () {
+      var currentDate = dayjs().format('YYYY-MM-DD');
+      var currentTime = dayjs().format('h:mm:ss A');
+      $('#current-date-time').text('Current date: ' + currentDate + ', Current time: ' + currentTime);
+  }
+
+  timeUpdate();
+  setInterval(timeUpdate, 1000);
+});
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
