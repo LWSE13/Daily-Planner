@@ -34,4 +34,30 @@ $(function () {
 
 
 
-// Step 2: Write a JavaScript function to generate the time slots
+//when document is ready run the following function
+$(document).ready(function() {
+  function updateClasses() {
+    //creates a variable that uses dayjs to get the current hour
+    var currentHour = dayjs().hour();
+    //selects each time block class and runs the following function
+    $('.time-block').each(function() {
+      //creates a variable timeBlockHour that uses parse to convert the id from a string to an integer
+      var timeBlockHour = parseInt($(this).attr('id'));
+      //if timeBlockHour is less than the current hour
+      if (timeBlockHour < currentHour) {
+        //$ selects this (the current time block) and adds the past class and removes the other classes 
+        $(this).addClass('past').removeClass('present future');
+        //code repeated for equal using an else if statement 
+      } else if (timeBlockHour === currentHour) {
+        $(this).addClass('present').removeClass('past future');
+      } else {
+        $(this).addClass('future').removeClass('past present');
+      }
+    });
+  }
+
+  updateClasses();
+  //updates every hour (1 second x 60 seconds x 60 minutes = 1 hour or 3600000 milliseconds)
+  setInterval(updateClasses, 1000 * 60 * 60); 
+});
+
