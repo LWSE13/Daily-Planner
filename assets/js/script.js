@@ -1,8 +1,9 @@
 $(document).ready(function() {
   function timeUpdate () {
-      var currentDate = dayjs().format("YYYY-MM-DD");
+      var currentDate = dayjs().format("DD-MM-YYYY");
       var currentTime = dayjs().format("h:mm:ss A");
-      $("#current-date-time").text("Current date: " + currentDate + ", Current time: " + currentTime);
+      var currentDay = dayjs().format("dddd");
+      $("#current-date-time").text("Current date: " + currentDay +" " + currentDate + ", Current time: " + currentTime);
   }
 
   timeUpdate();
@@ -30,7 +31,6 @@ $(document).ready(function() {
 
   var timeBlockSaves = JSON.parse(localStorage.getItem("timeBlockInput"))
   for (var timeBlockID in timeBlockSaves) {
-  
     $("#" + timeBlockID).find("textarea").val(timeBlockSaves[timeBlockID]);
   }
 });
@@ -43,6 +43,28 @@ $(".saveBtn").click(function() {
   timeBlockSaves[timeBlockID] = timeBlockText;
   localStorage.setItem("timeBlockInput", JSON.stringify(timeBlockSaves));
   
+var saveConfirmationToast = 
+`
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Notification</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Time block saved to local storage!
+    </div>
+  </div>
+</div>
+  `;
+
+  $("body").append(saveConfirmationToast);
+  $(".toast").toast("show");
+  setTimeout(function() {
+    $(".toast").fadeOut("slow", function() {
+      $(this).remove();
+    });
+  }, 3000);
 })
 
 
